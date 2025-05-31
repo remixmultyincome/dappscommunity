@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Mono Line - Network is Coming</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gold-gradient: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            --dark-primary: #0f0f23;
+            --dark-secondary: #1a1a2e;
+            --dark-accent: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #b8c5d1;
+            --text-muted: #8892b0;
+            --accent-color: #64ffda;
+            --gold-color: #ffd700;
+            --success-color: #00d4aa;
+            --warning-color: #ff6b6b;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-primary: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-glass: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 50%, var(--dark-accent) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(100, 255, 218, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(255, 107, 107, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            text-align: center;
+            position: relative;
+            padding: 4rem 0;
+        }
+        
+        .logo {
+            width: 180px;
+            height: 180px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-primary), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+        }
+        
+        .logo::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.3;
+            animation: pulse 2s infinite;
+        }
+        
+        .logo i {
+            font-size: 4.5rem;
+            color: white;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        .subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            margin-bottom: 3rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+        
+        .highlight {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+        
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+            max-width: 600px;
+        }
+        
+        .countdown-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-glass);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .countdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--accent-gradient);
+            opacity: 0.5;
+        }
+        
+        .countdown-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .countdown-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        
+        .countdown-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .cta-button {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1.25rem 3rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--secondary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+        
+        .cta-button i, .cta-button span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .calculator-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 6rem 0;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-glass);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .calculator-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold-gradient);
+            opacity: 0.7;
+        }
+        
+        .calculator-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1);
+        }
+        
+        .calculator-button {
+            background: var(--accent-gradient);
+            color: var(--dark-primary);
+            border: none;
+            padding: 1.25rem 2rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: var(--shadow-glass);
+        }
+        
+        .calculator-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-primary);
+        }
+        
+        .result-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+        }
+        
+        .result-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .lux-sim-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-glass);
+        }
+        
+        .lux-sim-table th, .lux-sim-table td {
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+        
+        .lux-sim-table th {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .lux-sim-table td {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .lux-total-row {
+            background: rgba(100, 255, 218, 0.05) !important;
+            font-weight: 700 !important;
+            color: var(--accent-color) !important;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 6rem 0;
+        }
+        
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-12px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: var(--shadow-primary);
+        }
+        
+        .feature-card:hover::before {
+            transform: translateX(0);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+        
+        .single-line-container {
+            position: relative;
+            height: 140px;
+            margin: 3rem 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .placement-line {
+            position: absolute;
+            top: 50%;
+            left: 2rem;
+            right: 2rem;
+            height: 2px;
+            background: var(--accent-gradient);
+            border-radius: 1px;
+        }
+        
+        .placement-node {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: rgba(100, 255, 218, 0.1);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.75rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .placement-node.you {
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(118, 75, 162, 0.15);
+            border-color: #764ba2;
+            width: 90px;
+            height: 90px;
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(118, 75, 162, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+        }
+        
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .hero {
+                padding: 2rem 0;
+                min-height: auto;
+            }
+            
+            .logo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .logo i {
+                font-size: 3rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+                padding: 0 1rem;
+            }
+            
+            .countdown {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                margin: 2rem 0;
+                max-width: 100%;
+            }
+            
+            .countdown-item {
+                padding: 1.5rem 1rem;
+            }
+            
+            .countdown-number {
+                font-size: 2.2rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.75rem;
+            }
+            
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                margin-top: 1rem;
+            }
+            
+            .calculator-container {
+                padding: 1.5rem;
+                margin: 3rem 0;
+            }
+            
+            .calculator-title {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-group input, .form-group select {
+                padding: 0.8rem 1rem;
+            }
+            
+            .calculator-button {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .result-card {
+                padding: 1.5rem;
+            }
+            
+            .result-card h3 {
+                font-size: 1.3rem;
+            }
+            
+            .lux-sim-table th, .lux-sim-table td {
+                padding: 0.7rem;
+                font-size: 0.85rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin: 3rem 0;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+            
+            .feature-icon {
+                font-size: 2.5rem;
+            }
+            
+            .feature-title {
+                font-size: 1.3rem;
+            }
+            
+            .placement-node {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .placement-node.you {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .single-line-container {
+                height: 100px;
+                padding: 1rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="particles-js" class="particles"></div>
+    
+    <div class="container">
+        <div class="hero">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+            </div>
+            
+            <h1>FIRST MONO LINE NETWORK IS COMING</h1>
+            <p class="subtitle">
+                Revolutionizing decentralized finance with <span class="highlight">60% bonus tier</span> and 
+                <span class="highlight">lightning-fast rewards</span>. Join our exclusive launch in:
+            </p>
+            
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">07</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">23</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">59</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">59</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+            
+            <a href="https://t.me/your_telegram_group" class="cta-button" target="_blank">
+                <i class="fab fa-telegram"></i>
+                <span>Join Our Telegram</span>
+            </a>
+        </div>
+        <style>
+    @keyframes goldBlink {
+      0% { color: #d4af37; box-shadow: 0 4px 24px rgba(0,0,0,0.13); }
+      40% { color: #fff3b0; box-shadow: 0 0 36px 8px #ffe68188; }
+      60% { color: #d4af37; box-shadow: 0 4px 24px rgba(0,0,0,0.13);}
+      100% { color: #d4af37; box-shadow: 0 4px 24px rgba(0,0,0,0.13);}
+    }
+    .blink-card {
+      background: rgba(255,255,255,0.10);
+      border: 1.5px solid #d4af37;
+      color: #d4af37;
+      padding: 16px 36px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1.53em;
+      margin-top: 10px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: goldBlink 1.5s infinite;
+    }
+  </style>
+</head>
+<body style="background: #0a1f44;">
+  <div class="blink-card">
+    Money-back guarantee for the first 100 people who join my Telegram!
+  </div>
+
+        
+        <!-- Calculator Section -->
+        <div class="calculator-container">
+            <h2 class="calculator-title">Linea Network Bonus Calculator</h2>
+            
+            <form id="matrixForm" style="display:flex;flex-direction:column;gap:1.5rem;">
+                <div class="form-group">
+                    <label for="referralPerUser">Number of direct referrals per user</label>
+                    <input type="number" id="referralPerUser" value="10" min="1" max="1000" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="maxRank">Max Rank Purchased (1–12)</label>
+                    <input type="number" id="maxRank" value="7" min="1" max="12" />
+                </div>
+                
+                <div style="font-weight:600;color:var(--accent-color);margin:0.5rem 0;font-size:1rem;">Withdrawal amount per user (MATIC) at each generation:</div>
+                
+                <div style="display:grid;grid-template-columns:1fr;gap:1rem;">
+                    <div class="form-group">
+                        <label for="wd1">Generation 1 (your direct):</label>
+                        <input type="number" id="wd1" value="1000" min="0" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wd2">Generation 2:</label>
+                        <input type="number" id="wd2" value="800" min="0" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wd3">Generation 3:</label>
+                        <input type="number" id="wd3" value="500" min="0" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wd4">Generation 4:</label>
+                        <input type="number" id="wd4" value="300" min="0" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wd5">Generation 5:</label>
+                        <input type="number" id="wd5" value="200" min="0" />
+                    </div>
+                </div>
+                
+                <button type="button" id="matrixSimulateBtn" class="calculator-button">
+                    <i class="fas fa-calculator" style="margin-right: 0.5rem;"></i>
+                    Simulate Earnings
+                </button>
+            </form>
+            
+            <div class="result-card" id="matrixResult">
+                <h3><i class="fas fa-chart-line" style="margin-right: 0.5rem;"></i>Simulation Results</h3>
+                <p style="color: var(--text-secondary);">Enter your parameters and click "Simulate" to see your potential earnings breakdown.</p>
+            </div>
+            
+            <!-- Tier Visualization -->
+            <div style="margin-top: 2rem;">
+                <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--accent-color); font-size: 1.3rem; font-weight: 600;">
+                    <i class="fas fa-sitemap" style="margin-right: 0.5rem;"></i>
+                    Tier Bonus Structure Visualization
+                </h3>
+                <div class="single-line-container" id="tierVisualization">
+                    <div class="placement-line"></div>
+                    <div class="placement-node you">
+                        <div class="node-label">YOU</div>
+                        <div class="node-value">Rank 10</div>
+                    </div>
+                    <!-- Nodes will be added dynamically -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Lightning Fast Returns</h3>
+                <p class="feature-desc">
+                    Experience rapid returns with our optimized 60% bonus tier structure designed for maximum profitability and sustainable growth.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="feature-title">No Recruitment Pressure</h3>
+                <p class="feature-desc">
+                    Earn substantial rewards without the pressure of recruiting. Our innovative tier system works for everyone, regardless of network size.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Secure & Transparent</h3>
+                <p class="feature-desc">
+                    Built on blockchain technology with audited smart contracts that ensure complete security, transparency, and immutable transactions.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 Linea Network. All rights reserved. | Built with cutting-edge blockchain technology</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Countdown Timer (7 days from now)
+        const countdownDate = new Date();
+        countdownDate.setDate(countdownDate.getDate() + 7);
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }
+        
+        updateCountdown();
+        const countdownTimer = setInterval(updateCountdown, 1000);
+        
+        // Enhanced Particles.js initialization
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 60,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: ["#64ffda", "#667eea", "#f093fb"]
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.4,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#64ffda",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1.5,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: true,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // ========== Linea Matrix Bonus Simulator Logic ==========
+        const generationPercents = [0.05, 0.03, 0.02, 0.02, 0.03];
+        const RANK_PRICES = Array.from({length: 12}, (_, i) => 5 * Math.pow(2, i)); // [5, 10, ..., 10240]
+
+        document.getElementById('matrixSimulateBtn').onclick = function() {
+            // Input values
+            const referralPerUser = parseInt(document.getElementById('referralPerUser').value, 10);
+            const maxRank = Math.max(1, Math.min(12, parseInt(document.getElementById('maxRank').value, 10)));
+            const totalCostPerUser = RANK_PRICES.slice(0, maxRank).reduce((a, b) => a + b, 0);
+
+            // Calculate users per generation
+            let usersPerGen = [];
+            let genWD = [];
+            let genBonus = [];
+            let totalGenBonus = 0;
+            let totalUsers = 0;
+
+            let matrixHTML = `
+                <div style="overflow-x:auto;">
+                <table class="lux-sim-table">
+                    <tr>
+                        <th>Gen</th>
+                        <th>Users</th>
+                        <th>WD/user</th>
+                        <th>Total WD</th>
+                        <th>%</th>
+                        <th>Bonus</th>
+                    </tr>
+            `;
+
+            for (let i = 0; i < 5; i++) {
+                let users = Math.pow(referralPerUser, i+1);
+                usersPerGen.push(users);
+                totalUsers += users;
+
+                let wdPerUser = parseFloat(document.getElementById('wd' + (i+1)).value) || 0;
+                let totalWD = users * wdPerUser;
+                genWD.push(totalWD);
+
+                let bonus = totalWD * generationPercents[i];
+                genBonus.push(bonus);
+                totalGenBonus += bonus;
+
+                matrixHTML += `<tr>
+                    <td style="text-align:center;">${i+1}</td>
+                    <td style="text-align:right;">${users.toLocaleString()}</td>
+                    <td style="text-align:right;">${wdPerUser.toLocaleString(undefined,{maximumFractionDigits:2})}</td>
+                    <td style="text-align:right;">${totalWD.toLocaleString(undefined,{maximumFractionDigits:2})}</td>
+                    <td style="text-align:center;">${(generationPercents[i]*100).toFixed(0)}%</td>
+                    <td style="text-align:right;">${bonus.toLocaleString(undefined,{maximumFractionDigits:2})} MATIC</td>
+                </tr>`;
+            }
+            matrixHTML += `
+                <tr class="lux-total-row">
+                    <td colspan="5" style="text-align:right;">Total Generation Bonus</td>
+                    <td style="text-align:right;"><b>${totalGenBonus.toLocaleString(undefined,{maximumFractionDigits:2})} MATIC</b></td>
+                </tr>
+                </table>
+                </div>
+            `;
+
+            // Referral Bonus: 25% from direct referrals (Gen 1)
+            const referralUsers = Math.min(referralPerUser, usersPerGen[0]);
+            const referralBonus = referralUsers * totalCostPerUser * 0.25;
+
+            // Tier Bonus: 4% from up to 15 of your mono line global auto placements
+            const tierUsers = Math.min(15, usersPerGen[0]);
+            const tierBonus = tierUsers * totalCostPerUser * 0.04;
+
+            // Global package purchases (all users, all generations)
+            const totalPackages = totalUsers * totalCostPerUser;
+            const dividendPool = totalPackages * 0.01;
+
+            // Update tier visualization
+            updateTierVisualization(tierUsers, totalCostPerUser, 0.8); // 80% compliance for visualization
+
+            // Simulation Result Output
+            document.getElementById('matrixResult').innerHTML = `
+                <h3><i class="fas fa-chart-line" style="margin-right: 0.5rem;"></i>Simulation Results</h3>
+                <div style="overflow-x:auto;">
+                <table class="lux-sim-table">
+                    <tr>
+                        <td><b>Referral Bonus</b><br>
+                            <span style="color:var(--secondary-color);font-size:0.9em;">
+                                <b>25% of package purchases by direct referrals</b><br>
+                                (Your direct referrals only)
+                            </span>
+                        </td>
+                        <td style="text-align:right;"><b>${referralBonus.toLocaleString(undefined,{maximumFractionDigits:2})} MATIC</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Tier Bonus</b><br>
+                            <span style="color:var(--secondary-color);font-size:0.9em;">
+                                <b>4% from first 15 auto-placements</b><br>
+                                (Global structure, includes spillovers)
+                            </span>
+                        </td>
+                        <td style="text-align:right;"><b>${tierBonus.toLocaleString(undefined,{maximumFractionDigits:2})} MATIC</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>Dividend Pool</b><br>
+                            <span style="color:var(--secondary-color);font-size:0.9em;">
+                                <b>Any bonuses that are forfeited because a referrer or upline does not meet the required rank are collected into a dividend pool. These dividends are then distributed proportionally to users based on their rank, ensuring that qualified users receive their fair share.</b><br>
+                                (Shared among all participants)
+                            </span>
+                        </td>
+                        <td style="text-align:right;"><b>${dividendPool.toLocaleString(undefined,{maximumFractionDigits:2})} MATIC</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><b>Generation Bonus Breakdown:</b><br>${matrixHTML}</td>
+                    </tr>
+                    <tr class="lux-total-row">
+                        <td>Total Potential Earnings*</td>
+                        <td style="text-align:right;">
+                            <b style="color:var(--accent-color);font-size:1.1em">
+                                ${(referralBonus + tierBonus + totalGenBonus + dividendPool).toLocaleString(undefined,{maximumFractionDigits:2})} MATIC
+                            </b>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                <div style="margin-top:1em;color:var(--secondary-color);font-size:0.9em;">
+                    <i>
+                        *Calculation notes:
+                        <ul style="margin:0.5em 0 0 1em;font-size:0.9em;">
+                            <li><b>Referral bonus</b>: 25% of rank purchases by your direct referrals</li>
+                            <li><b>Tier bonus</b>: 4% from first 15 auto-placements in global structure</li>
+                            <li><b>Generation bonus</b>: [5%, 3%, 2%, 2%, 3%] of downlines' withdrawals</li>
+                            <li><b>Dividend pool</b>: Any bonuses that are forfeited because a referrer or upline does not meet the required rank are collected into a dividend pool. These dividends are then distributed proportionally to users based on their rank, ensuring that qualified users receive their fair share.</li>
+                        </ul>
+                        Actual earnings may vary based on network activity.
+                    </i>
+                </div>
+            `;
+        }
+
+        function updateTierVisualization(tierUsers, avgPurchase, compliance) {
+            const container = document.getElementById('tierVisualization');
+            container.innerHTML = '<div class="placement-line"></div>';
+            
+            // Add YOU node at center
+            const youNode = document.createElement('div');
+            youNode.className = 'placement-node you';
+            youNode.innerHTML = `
+                <div class="node-label">YOU</div>
+                <div class="node-value">Rank ${document.getElementById('maxRank').value}</div>
+            `;
+            youNode.style.left = '50%';
+            container.appendChild(youNode);
+            
+            // Add upline nodes (2 on mobile, 3 on desktop)
+            const uplineCount = window.innerWidth < 768 ? 2 : 3;
+            const potential = avgPurchase * 0.04;
+            const actual = potential * compliance;
+            const lost = potential * (1 - compliance);
+            
+            for (let i = 1; i <= uplineCount; i++) {
+                const node = document.createElement('div');
+                node.className = 'placement-node upline';
+                node.style.left = `${30 - (i * 10)}%`;
+                node.innerHTML = `
+                    <div class="node-label">Place ${i}</div>
+                    <div class="node-value">${actual.toFixed(1)}</div>
+                    ${compliance < 1 ? `<div class="node-lost">${lost.toFixed(1)} lost</div>` : ''}
+                `;
+                container.appendChild(node);
+                
+                // Add spillover arrow for non-compliant uplines
+                if (compliance < 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'spillover-arrow';
+                    arrow.style.left = `${30 - (i * 10)}%`;
+                    arrow.style.width = `${(50 - (30 - (i * 10)) - 5)}%`;
+                    container.appendChild(arrow);
+                }
+            }
+            
+            // Add spillover nodes (1 on mobile, 2 on desktop)
+            const spilloverCount = window.innerWidth < 768 ? 1 : 2;
+            for (let i = 1; i <= spilloverCount; i++) {
+                const node = document.createElement('div');
+                node.className = 'placement-node spillover';
+                node.style.left = `${50 + (i * 10)}%`;
+                node.innerHTML = `
+                    <div class="node-label">Spill ${i}</div>
+                    <div class="node-value">+${(lost/spilloverCount).toFixed(1)}</div>
+                `;
+                container.appendChild(node);
+            }
+            
+            // Add note if more tiers exist
+            if (tierUsers > uplineCount) {
+                const remainingTiers = tierUsers - uplineCount;
+                const remainingPotential = remainingTiers * avgPurchase * 0.04;
+                const remainingActual = remainingPotential * compliance;
+                const remainingLost = remainingPotential * (1 - compliance);
+                
+                const note = document.createElement('div');
+                note.className = 'placement-node';
+                note.style.left = window.innerWidth < 768 ? '70%' : '80%';
+                note.style.background = 'rgba(37, 117, 252, 0.1)';
+                note.style.borderColor = 'var(--secondary-color)';
+                note.innerHTML = `
+                    <div class="node-label">+${remainingTiers} tiers</div>
+                    <div class="node-value">${remainingActual.toFixed(1)}</div>
+                    ${compliance < 1 ? `<div class="node-lost">${remainingLost.toFixed(1)} lost</div>` : ''}
+                `;
+                container.appendChild(note);
+            }
+        }
+
+        // Initial simulation
+        document.getElementById('matrixSimulateBtn').click();
+    </script>
+</body>
+</html>
